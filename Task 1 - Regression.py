@@ -183,7 +183,7 @@ plt.tight_layout()
 plt.suptitle("Regression Model Comparison — Tuned vs Untuned", fontsize=16, y=1.03)
 plt.show()
 
-# Optional DNN Learning Curves
+# DNN Learning Curves
 plt.figure(figsize=(6,4))
 plt.plot(history.history["loss"], label="Untuned Train Loss")
 plt.plot(history.history["val_loss"], label="Untuned Val Loss")
@@ -193,5 +193,29 @@ plt.title("DNN Learning Curves (Untuned vs Tuned)")
 plt.xlabel("Epoch")
 plt.ylabel("MSE Loss")
 plt.legend()
+plt.show()
+
+# =======================================================
+#  Feature Importance Plot for Tuned Random Forest
+# =======================================================
+
+# Extract feature names after preprocessing
+feature_names = best_rf.named_steps["preprocess"].get_feature_names_out()
+
+# Extract importance scores from tuned RF model
+importances = best_rf.named_steps["model"].feature_importances_
+
+# Sort features by importance
+indices = np.argsort(importances)[::-1]
+sorted_features = feature_names[indices]
+sorted_importances = importances[indices]
+
+# Plot
+plt.figure(figsize=(10, 6))
+plt.bar(range(len(sorted_importances)), sorted_importances)
+plt.xticks(range(len(sorted_features)), sorted_features, rotation=90)
+plt.ylabel("Feature Importance")
+plt.title("Random Forest (Tuned) — Feature Importance")
+plt.tight_layout()
 plt.show()
 

@@ -31,7 +31,6 @@ cat_features = [col for col in df.columns if col not in num_features + [target]]
 
 # Convert TotalCharges to numeric and drop missing
 df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors="coerce")
-# df = df.dropna(subset=["TotalCharges"])
 df = df.dropna()
 
 X = df[num_features + cat_features]
